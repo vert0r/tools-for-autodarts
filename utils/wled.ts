@@ -121,6 +121,13 @@ async function processX01Data(
   // After the exact segment, so an effect set up on `m17` or `miss` keeps it.
   if (missed && triggerPresentCB("outside")) return "outside";
 
+  const seatName = gameData.match.players?.[gameData.match.player]?.name;
+  if (seatName) {
+    const playerNameTrigger = seatName.toLowerCase().replace(/\s+/g, "_");
+    if (triggerPresentCB(playerNameTrigger)) {
+      return playerNameTrigger; // Gibt z.B. "ncki78" zurück statt null (und verhindert gameon!)
+    }
+  }  
   return null;
 }
 
